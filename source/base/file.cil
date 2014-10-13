@@ -1,0 +1,43 @@
+(defaultrole file target)
+(defaultrole dir target)
+(defaultrole lnk_file target)
+(defaultrole chr_file target)
+(defaultrole blk_file target)
+(defaultrole sock_file target)
+(defaultrole fifo_file target)
+
+(typeattribute file_object)
+(typeattribute file_unconfined_subject)
+
+(in o
+    (block file
+        (type t)
+        (call file_object (t))
+
+        ; temporary workaround
+        (call fs_associate_tmpfs_object (t))
+    )
+)
+
+(call fs_associate_fs_object (file_object))
+
+(allow file_unconfined_subject file_object (file (all)))
+(allow file_unconfined_subject file_object (dir (all)))
+(allow file_unconfined_subject file_object (lnk_file (all)))
+(allow file_unconfined_subject file_object (chr_file (all)))
+(allow file_unconfined_subject file_object (blk_file (all)))
+(allow file_unconfined_subject file_object (sock_file (all)))
+(allow file_unconfined_subject file_object (fifo_file (all)))
+
+(macro file_object ((type ARG1))
+    (call object (ARG1))
+    (typeattributeset file_object ARG1))
+
+(macro file_unconfined_subject ((type ARG1))
+    (typeattributeset file_unconfined_subject ARG1))
+
+(context file (s.sys.u o.r o.file.t (systemlow systemlow)))
+(filecon "/.*" any file)
+
+(filecon "/run/user/.*" any ())
+(filecon "/run/initramfs/.need_shutdown" file ())
