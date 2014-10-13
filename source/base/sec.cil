@@ -1,0 +1,32 @@
+(sid security)
+
+(typeattribute sec_bool_object)
+(typeattribute sec_unconfined_subject)
+
+(in o
+    (block sec
+        (block fs
+            (type t)
+            (call fs_object (t))
+            (call sec_bool_object (t))
+        )
+    )
+)
+
+(allow sec_unconfined_subject sec_bool_object (file (all)))
+(allow sec_unconfined_subject sec_bool_object (dir (all)))
+
+(allow sec_unconfined_subject sec_bool_object (security (all)))
+
+(macro sec_bool_object ((type ARG1))
+    (call object (ARG1))
+    (typeattributeset sec_bool_object ARG1))
+
+(macro sec_unconfined_subject ((type ARG1))
+    (typeattributeset sec_unconfined_subject ARG1))
+
+(context securityfs (s.sys.u o.r o.sec.fs.t (mls_systemhigh mls_systemhigh)))
+(sidcontext security securityfs)
+
+(genfscon "selinuxfs" "/" (s.sys.u o.r o.sec.fs.t (systemlow systemlow)))
+(genfscon "securityfs" "/" (s.sys.u o.r o.sec.fs.t (systemlow systemlow)))

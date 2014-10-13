@@ -1,0 +1,71 @@
+(sid kernel)
+(sid sysctl)
+
+(typeattribute sys_proc_object)
+(typeattribute sys_unconfined_subject)
+(typeattribute sys_sysctl_object)
+
+(in s
+    (block sys
+        (user u)
+        (role r)
+        (type t)
+
+        (call object_userrole (u))
+        (call subject (t))
+
+        (userrole u r)
+        (roletype r t)
+
+        (userlevel u systemlow)
+        (userrange u (systemlow systemhigh))
+
+        (call entity_unconfined_subject (t))
+
+        (call object_unconfined_subject (t))
+        (call subject_unconfined_subject (t))
+
+        (call dev_unconfined_subject (t))
+        (call file_unconfined_subject (t))
+        (call fs_unconfined_subject (t))
+        (call net_unconfined_subject (t))
+        (call sec_unconfined_subject (t))
+        (call sys_unconfined_subject (t))
+    )
+)
+
+(in o
+    (block sys
+        (block sysctl
+            (type t)
+            (call sys_sysctl_object (t))
+        )
+    )
+)
+
+(allow sys_unconfined_subject s.sys.t (system (all)))
+
+(allow sys_unconfined_subject sys_proc_object (dir (all)))
+(allow sys_unconfined_subject sys_proc_object (file (all)))
+
+(allow sys_unconfined_subject sys_sysctl_object (dir (all)))
+(allow sys_unconfined_subject sys_sysctl_object (file (all)))
+
+(macro sys_proc_object ((type ARG1))
+    (call object (ARG1))
+    (typeattributeset sys_proc_object ARG1))
+
+(macro sys_sysctl_object ((type ARG1))
+    (call object (ARG1))
+    (typeattributeset sys_sysctl_object ARG1))
+
+(macro sys_unconfined_subject ((type ARG1))
+    (typeattributeset sys_unconfined_subject ARG1))
+
+(context sys (s.sys.u s.sys.r s.sys.t (mls_systemhigh mls_systemhigh)))
+(sidcontext kernel sys)
+
+(context sysctl (s.sys.u o.r o.sys.sysctl.t (systemlow systemlow)))
+(sidcontext sysctl sysctl)
+
+(genfscon "proc" "/sys" sysctl)

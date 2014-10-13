@@ -1,0 +1,31 @@
+(sid devnull)
+
+(typeattribute dev_object)
+(typeattribute dev_unconfined_subject)
+
+(in o.file
+    (block dev
+        (block null
+            (type t)
+            (call dev_object (t))
+        )
+    )
+)
+
+(call fs_associate_devtmpfs_object (dev_object))
+
+(allow dev_unconfined_subject dev_object (chr_file (all)))
+(allow dev_unconfined_subject dev_object (blk_file (all)))
+
+(macro dev_object ((type ARG1))
+    (call object (ARG1))
+    (typeattributeset dev_object ARG1))
+
+(macro dev_unconfined_subject ((type ARG1))
+    (typeattributeset dev_unconfined_subject ARG1))
+
+(context null (s.sys.u o.r o.file.dev.null.t (systemlow systemlow)))
+(sidcontext devnull null)
+
+(filecon "/dev/full" char null)
+(filecon "/dev/null" char null)

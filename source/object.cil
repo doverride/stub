@@ -1,0 +1,57 @@
+(sid file)
+
+(typeattribute object)
+(typeattribute object_unconfined_subject)
+
+(block o
+    (role r)
+
+    (block unlabeled
+        (type t)
+        (call object (t))
+
+        (call fs_associate_devtmpfs_object (t))
+        (call fs_associate_fs_object (t))
+        (call fs_associate_tmpfs_object (t))
+
+        (allow object_unconfined_subject t (file (all)))
+        (allow object_unconfined_subject t (dir (all)))
+        (allow object_unconfined_subject t (lnk_file (all)))
+        (allow object_unconfined_subject t (chr_file (all)))
+        (allow object_unconfined_subject t (blk_file (all)))
+        (allow object_unconfined_subject t (sock_file (all)))
+        (allow object_unconfined_subject t (fifo_file (all)))
+    )
+)
+
+(call object_roletype (object))
+
+(macro object ((type ARG1))
+    (typeattributeset object ARG1))
+
+(macro object_roletype ((type ARG1))
+    (roletype o.r ARG1))
+
+(macro object_userrole ((user ARG1))
+    (userrole ARG1 o.r))
+
+(macro object_recvfrom_unlabeled_tcp_socket ((type ARG1))
+    (allow ARG1 o.unlabeled.t (tcp_socket (recvfrom))))
+
+(macro object_recvfrom_unlabeled_udp_socket ((type ARG1))
+    (allow ARG1 o.unlabeled.t (udp_socket (recvfrom))))
+
+(macro object_recvfrom_unlabeled_rawip_socket ((type ARG1))
+    (allow ARG1 o.unlabeled.t (rawip_socket (recvfrom))))
+
+(macro object_recvfrom_unlabeled_dccp_socket ((type ARG1))
+    (allow ARG1 o.unlabeled.t (dccp_socket (recvfrom))))
+
+(macro object_recv_unlabeled_peer ((type ARG1))
+    (allow ARG1 o.unlabeled.t (peer (recv))))
+
+(macro object_unconfined_subject ((type ARG1))
+    (typeattributeset object_unconfined_subject ARG1))
+
+(context unlabeled (s.sys.u o.r o.unlabeled.t (systemlow systemlow)))
+(sidcontext file unlabeled)
