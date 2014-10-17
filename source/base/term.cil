@@ -1,0 +1,68 @@
+(typeattribute term_pty_object)
+(typeattribute term_serial_object)
+(typeattribute term_tty_object)
+
+(in o.dev
+    (block term
+        (block console
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block devtty
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block ptmx
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block tty
+            (type t)
+            (call term_serial_object (t))
+        )
+
+        (block virtio
+            (type t)
+            (call term_serial_object (t))
+        )
+    )
+)
+
+(call fs_associate_devpts_object (term_pty_object))
+
+(macro term_pty_object ((type ARG1))
+    (call dev_object (ARG1))
+    (typeattributeset term_pty_object ARG1))
+
+(macro term_serial_object ((type ARG1))
+    (call dev_object (ARG1))
+    (typeattributeset term_serial_object ARG1))
+
+(macro term_tty_object ((type ARG1))
+    (call term_serial_object (ARG1))
+    (typeattributeset term_tty_object ARG1))
+
+(context term_console (s.sys.u o.r o.dev.term.console.t (systemlow systemlow)))
+
+(filecon "/dev/console" char term_console)
+
+(context term_devtty (s.sys.u o.r o.dev.term.devtty.t (systemlow systemlow)))
+
+(filecon "/dev/tty" char term_devtty)
+
+(context term_ptmx (s.sys.u o.r o.dev.term.ptmx.t (systemlow systemlow)))
+
+(filecon "/dev/ptmx" char term_ptmx)
+
+(context term_tty (s.sys.u o.r o.dev.term.tty.t (systemlow systemlow)))
+
+(filecon "/dev/hvc[0-9]+" char term_tty)
+(filecon "/dev/tty.+" char term_tty)
+(filecon "/dev/vcs[^/]*" char term_tty)
+
+(context term_virtio (s.sys.u o.r o.dev.term.virtio.t (systemlow systemlow)))
+
+(filecon "/dev/vport[0-9]p[0-9]+" char term_virtio)

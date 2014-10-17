@@ -121,6 +121,9 @@
     (call object (ARG1))
     (typeattributeset fs_object ARG1))
 
+(macro fs_associate_devpts_object ((type ARG1))
+    (allow ARG1 o.fs.devpts.t (filesystem (associate))))
+
 (macro fs_associate_devtmpfs_object ((type ARG1))
     (allow ARG1 o.fs.devtmpfs.t (filesystem (associate))))
 
@@ -133,93 +136,93 @@
 (macro fs_unconfined_subject ((type ARG1))
     (typeattributeset fs_unconfined_subject ARG1))
 
-(context fs (s.sys.u o.r o.fs.t (systemlow systemlow)))
+(context fs_fs (s.sys.u o.r o.fs.t (systemlow systemlow)))
 
-(sidcontext fs fs)
+(sidcontext fs fs_fs)
 
-(fsuse task "pipefs" fs)
-(fsuse task "sockfs" fs)
+(fsuse task "pipefs" fs_fs)
+(fsuse task "sockfs" fs_fs)
 
-(fsuse xattr "ext4" fs)
+(fsuse xattr "ext4" fs_fs)
 
-(context aio (s.sys.u o.r o.fs.aio.t (systemlow systemlow)))
+(context fs_aio (s.sys.u o.r o.fs.aio.t (systemlow systemlow)))
 
-(genfscon "aio" "/" aio)
+(genfscon "aio" "/" fs_aio)
 
-(context anon_inodefs (s.sys.u o.r o.fs.anon_inodefs.t (systemlow systemlow)))
+(context fs_anon_inodefs (s.sys.u o.r o.fs.anon_inodefs.t (systemlow systemlow)))
 
-(genfscon "anon_inodefs" "/" anon_inodefs)
+(genfscon "anon_inodefs" "/" fs_anon_inodefs)
 
-(context autofs (s.sys.u o.r o.fs.autofs.t (systemlow systemlow)))
+(context fs_autofs (s.sys.u o.r o.fs.autofs.t (systemlow systemlow)))
 
-(genfscon "autofs" "/" autofs)
+(genfscon "autofs" "/" fs_autofs)
 
-(context bdev (s.sys.u o.r o.fs.bdev.t (systemlow systemlow)))
+(context fs_bdev (s.sys.u o.r o.fs.bdev.t (systemlow systemlow)))
 
-(genfscon "bdev" "/" bdev)
+(genfscon "bdev" "/" fs_bdev)
 
-(context cgroup (s.sys.u o.r o.fs.cgroup.t (systemlow systemlow)))
+(context fs_cgroup (s.sys.u o.r o.fs.cgroup.t (systemlow systemlow)))
 
-(genfscon "cgroup" "/" cgroup)
+(genfscon "cgroup" "/" fs_cgroup)
 
-(context configfs (s.sys.u o.r o.fs.configfs.t (systemlow systemlow)))
+(context fs_configfs (s.sys.u o.r o.fs.configfs.t (systemlow systemlow)))
 
-(genfscon "configfs" "/" configfs)
+(genfscon "configfs" "/" fs_configfs)
 
-(context debugfs (s.sys.u o.r o.fs.debugfs.t (systemlow systemlow)))
+(context fs_debugfs (s.sys.u o.r o.fs.debugfs.t (systemlow systemlow)))
 
-(genfscon "debugfs" "/" debugfs)
+(genfscon "debugfs" "/" fs_debugfs)
 
-(context devpts (s.sys.u o.r o.fs.devpts.t (systemlow systemlow)))
+(context fs_devpts (s.sys.u o.r o.fs.devpts.t (systemlow systemlow)))
 
-(fsuse trans "devpts" devpts)
+(fsuse trans "devpts" fs_devpts)
 
-(context devtmpfs (s.sys.u o.r o.fs.devtmpfs.t (systemlow systemlow)))
+(context fs_devtmpfs (s.sys.u o.r o.fs.devtmpfs.t (systemlow systemlow)))
 
-(fsuse trans "devtmpfs" devtmpfs)
+(fsuse trans "devtmpfs" fs_devtmpfs)
 
 (filecon "/dev/.*" any ())
 (filecon "/dev" dir ())
 
-(context dosfs (s.sys.u o.r o.fs.dosfs.t (systemlow systemlow)))
+(context fs_dosfs (s.sys.u o.r o.fs.dosfs.t (systemlow systemlow)))
 
-(genfscon "vfat" "/" dosfs)
+(genfscon "vfat" "/" fs_dosfs)
 
-(context drm (s.sys.u o.r o.fs.drm.t (systemlow systemlow)))
+(context fs_drm (s.sys.u o.r o.fs.drm.t (systemlow systemlow)))
 
-(genfscon "drm" "/" drm)
+(genfscon "drm" "/" fs_drm)
 
-(context efivarfs (s.sys.u o.r o.fs.efivarfs.t (systemlow systemlow)))
+(context fs_efivarfs (s.sys.u o.r o.fs.efivarfs.t (systemlow systemlow)))
 
-(genfscon "efivarfs" "/" efivarfs)
+(genfscon "efivarfs" "/" fs_efivarfs)
 
-(context hugetlbfs (s.sys.u o.r o.fs.hugetlbfs.t (systemlow systemlow)))
+(context fs_hugetlbfs (s.sys.u o.r o.fs.hugetlbfs.t (systemlow systemlow)))
 
-(fsuse trans "hugetlbfs" hugetlbfs)
+(fsuse trans "hugetlbfs" fs_hugetlbfs)
 
-(context proc (s.sys.u o.r o.fs.proc.t (systemlow systemlow)))
+(context fs_proc (s.sys.u o.r o.fs.proc.t (systemlow systemlow)))
 
-(genfscon "proc" "/" proc)
+(genfscon "proc" "/" fs_proc)
 
 (filecon "/proc/.*" any ())
 (filecon "/proc" dir ())
 
-(context pstore (s.sys.u o.r o.fs.pstore.t (systemlow systemlow)))
+(context fs_pstore (s.sys.u o.r o.fs.pstore.t (systemlow systemlow)))
 
-(genfscon "pstore" "/" pstore)
+(genfscon "pstore" "/" fs_pstore)
 
-(context rootfs (s.sys.u o.r o.fs.rootfs.t (systemlow systemlow)))
+(context fs_rootfs (s.sys.u o.r o.fs.rootfs.t (systemlow systemlow)))
 
-(genfscon "rootfs" "/" rootfs)
+(genfscon "rootfs" "/" fs_rootfs)
 
-(context sysfs (s.sys.u o.r o.fs.sysfs.t (systemlow systemlow)))
+(context fs_sysfs (s.sys.u o.r o.fs.sysfs.t (systemlow systemlow)))
 
-(genfscon "sysfs" "/" sysfs)
+(genfscon "sysfs" "/" fs_sysfs)
 
 (filecon "/sys/.*" any ())
 (filecon "/sys" dir ())
 
-(context tmpfs (s.sys.u o.r o.fs.tmpfs.t (systemlow systemlow)))
+(context fs_tmpfs (s.sys.u o.r o.fs.tmpfs.t (systemlow systemlow)))
 
-(fsuse trans "mqueue" tmpfs)
-(fsuse trans "tmpfs" tmpfs)
+(fsuse trans "mqueue" fs_tmpfs)
+(fsuse trans "tmpfs" fs_tmpfs)

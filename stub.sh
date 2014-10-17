@@ -7,7 +7,9 @@
     source/base/fs.cil \
     source/base/net.cil \
     source/base/sec.cil \
+    source/base/stor.cil \
     source/base/sys.cil \
+    source/base/term.cil \
     source/config.cil \
     source/entity.cil \
     source/isid.cil \
