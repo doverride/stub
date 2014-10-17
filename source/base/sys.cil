@@ -31,6 +31,8 @@
         (call net_unconfined_subject (t))
         (call sec_unconfined_subject (t))
         (call sys_unconfined_subject (t))
+
+        (call stor_unconfined_subject (t))
     )
 )
 
@@ -62,10 +64,12 @@
 (macro sys_unconfined_subject ((type ARG1))
     (typeattributeset sys_unconfined_subject ARG1))
 
-(context sys (s.sys.u s.sys.r s.sys.t (mls_systemhigh mls_systemhigh)))
-(sidcontext kernel sys)
+(context sys_sys (s.sys.u s.sys.r s.sys.t (mls_systemhigh mls_systemhigh)))
 
-(context sysctl (s.sys.u o.r o.sys.sysctl.t (systemlow systemlow)))
-(sidcontext sysctl sysctl)
+(sidcontext kernel sys_sys)
 
-(genfscon "proc" "/sys" sysctl)
+(context sys_sysctl (s.sys.u o.r o.sys.sysctl.t (systemlow systemlow)))
+
+(sidcontext sysctl sys_sysctl)
+
+(genfscon "proc" "/sys" sys_sysctl)

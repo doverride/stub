@@ -3,9 +3,144 @@
 (typeattribute dev_object)
 (typeattribute dev_unconfined_subject)
 
-(in o.file
+(in o
     (block dev
+        (block apm
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block autofs
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block clock
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block cpu
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block dri
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block event
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block framebuf
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block kmsg
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block loop_control
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block lvm_control
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block memory
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block mouse
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block net_control
+            (type t)
+            (call dev_object (t))
+        )
+
         (block null
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block nvram
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block random
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block sound
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block uhid
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block urandom
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block usb
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block usbmon
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block v4l
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block vfio
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block vhci
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block vhost
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block wireless
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block xserver_misc
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block zero
             (type t)
             (call dev_object (t))
         )
@@ -24,8 +159,127 @@
 (macro dev_unconfined_subject ((type ARG1))
     (typeattributeset dev_unconfined_subject ARG1))
 
-(context null (s.sys.u o.r o.file.dev.null.t (systemlow systemlow)))
-(sidcontext devnull null)
+(context dev_apm (s.sys.u o.r o.dev.apm.t (systemlow systemlow)))
 
-(filecon "/dev/full" char null)
-(filecon "/dev/null" char null)
+(filecon "/dev/snapshot" char dev_apm)
+
+(context dev_autofs (s.sys.u o.r o.dev.autofs.t (systemlow systemlow)))
+
+(filecon "/dev/autofs" char dev_autofs)
+
+(context dev_clock (s.sys.u o.r o.dev.clock.t (systemlow systemlow)))
+
+(filecon "/dev/hpet" char dev_clock)
+(filecon "/dev/rtc[0-9]+" char dev_clock)
+
+(context dev_cpu (s.sys.u o.r o.dev.cpu.t (systemlow systemlow)))
+
+(filecon "/dev/cpu/.+" char dev_cpu)
+
+(context dev_dri (s.sys.u o.r o.dev.dri.t (systemlow systemlow)))
+
+(filecon "/dev/dri/.+" char dev_dri)
+
+(context dev_event (s.sys.u o.r o.dev.event.t (systemlow systemlow)))
+
+(filecon "/dev/input/event[0-9]+" char dev_event)
+(filecon "/dev/uinput" char dev_event)
+
+(context dev_framebuf (s.sys.u o.r o.dev.framebuf.t (systemlow systemlow)))
+
+(filecon "/dev/fb[0-9]+" char dev_framebuf)
+
+(context dev_kmsg (s.sys.u o.r o.dev.kmsg.t (mls_systemhigh mls_systemhigh)))
+
+(filecon "/dev/kmsg" char dev_kmsg)
+(filecon "/dev/mcelog" char dev_kmsg)
+
+(context dev_loop_control (s.sys.u o.r o.dev.loop_control.t (systemlow systemlow)))
+
+(filecon "/dev/loop-control" char dev_loop_control)
+
+(context dev_lvm_control (s.sys.u o.r o.dev.lvm_control.t (systemlow systemlow)))
+
+(filecon "/dev/btrfs-control" char dev_lvm_control)
+(filecon "/dev/mapper/control" char dev_lvm_control)
+
+(context dev_memory (s.sys.u o.r o.dev.memory.t (mls_systemhigh mls_systemhigh)))
+
+(filecon "/dev/mem" char dev_memory)
+(filecon "/dev/port" char dev_memory)
+
+(context dev_mouse (s.sys.u o.r o.dev.mouse.t (systemlow systemlow)))
+
+(filecon "/dev/input/mice" char dev_mouse)
+(filecon "/dev/input/mouse[0-9]+" char dev_mouse)
+
+(context dev_net_control (s.sys.u o.r o.dev.net_control.t (systemlow systemlow)))
+
+(filecon "/dev/cpu_dma_latency" char dev_net_control)
+(filecon "/dev/network_latency" char dev_net_control)
+(filecon "/dev/network_throughput" char dev_net_control)
+
+(context dev_null (s.sys.u o.r o.dev.null.t (systemlow systemlow)))
+
+(sidcontext devnull dev_null)
+
+(filecon "/dev/full" char dev_null)
+(filecon "/dev/null" char dev_null)
+
+(context dev_nvram (s.sys.u o.r o.dev.nvram.t (mls_systemhigh mls_systemhigh)))
+
+(filecon "/dev/nvram" char dev_nvram)
+
+(context dev_random (s.sys.u o.r o.dev.random.t (systemlow systemlow)))
+
+(filecon "/dev/random" char dev_random)
+
+(context dev_sound (s.sys.u o.r o.dev.sound.t (systemlow systemlow)))
+
+(filecon "/dev/snd/.+" char dev_sound)
+
+(context dev_uhid (s.sys.u o.r o.dev.uhid.t (systemlow systemlow)))
+
+(filecon "/dev/uhid" char dev_uhid)
+
+(context dev_urandom (s.sys.u o.r o.dev.urandom.t (systemlow systemlow)))
+
+(filecon "/dev/urandom" char dev_urandom)
+
+(context dev_usb (s.sys.u o.r o.dev.usb.t (systemlow systemlow)))
+
+(filecon "/dev/bus/usb/.+" char dev_usb)
+(filecon "/dev/hidraw[0-9]+" char dev_usb)
+
+(context dev_usbmon (s.sys.u o.r o.dev.usbmon.t (systemlow systemlow)))
+
+(filecon "/dev/usbmon[0-9]+" char dev_usbmon)
+
+(context dev_v4l (s.sys.u o.r o.dev.v4l.t (systemlow systemlow)))
+
+(filecon "/dev/media[0-9]+" char dev_v4l)
+(filecon "/dev/video[0-9]+" char dev_v4l)
+
+(context dev_vfio (s.sys.u o.r o.dev.vfio.t (systemlow systemlow)))
+
+(filecon "/dev/vfio/.+" char dev_vfio)
+
+(context dev_vhci (s.sys.u o.r o.dev.vhci.t (systemlow systemlow)))
+
+(filecon "/dev/vhci" char dev_vhci)
+
+(context dev_vhost (s.sys.u o.r o.dev.vhost.t (systemlow systemlow)))
+
+(filecon "/dev/vhost-net" char dev_vhost)
+
+(context dev_wireless (s.sys.u o.r o.dev.wireless.t (systemlow systemlow)))
+
+(filecon "/dev/rfkill" char dev_wireless)
+
+(context dev_xserver_misc (s.sys.u o.r o.dev.xserver_misc.t (systemlow systemlow)))
+
+(filecon "/dev/vga_arbiter" char dev_xserver_misc)
+
+(context dev_zero (s.sys.u o.r o.dev.zero.t (systemlow systemlow)))
+
+(filecon "/dev/zero" char dev_zero)

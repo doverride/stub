@@ -1,0 +1,57 @@
+(typeattribute stor_unconfined_subject)
+
+(in o.dev
+    (block stor
+        (block fixed_disk
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block fuse
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block removable
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block scsi_generic
+            (type t)
+            (call dev_object (t))
+        )
+    )
+)
+
+(allow stor_unconfined_subject o.dev.stor.fixed_disk.t (blk_file (all)))
+(allow stor_unconfined_subject o.dev.stor.fixed_disk.t (chr_file (all)))
+
+(allow stor_unconfined_subject o.dev.stor.fuse.t (chr_file (all)))
+
+(allow stor_unconfined_subject o.dev.stor.removable.t (blk_file (all)))
+
+(allow stor_unconfined_subject o.dev.stor.scsi_generic.t (chr_file (all)))
+
+(context stor_fixed_disk (s.sys.u o.r o.dev.stor.fixed_disk.t (mls_systemhigh mls_systemhigh)))
+
+(filecon "/dev/[shmxv]d[^/]*" block stor_fixed_disk)
+(filecon "/dev/dm-[0-9]+" block stor_fixed_disk)
+(filecon "/dev/raw/.+" char stor_fixed_disk)
+
+(context stor_fuse (s.sys.u o.r o.dev.stor.fuse.t (systemlow systemlow)))
+
+(filecon "/dev/fuse" char stor_fuse)
+
+(context stor_removable (s.sys.u o.r o.dev.stor.removable.t (systemlow systemlow)))
+
+(filecon "/dev/mmcblk.+" block stor_removable)
+(filecon "/dev/sr[0-9]+" block stor_removable)
+
+(context stor_scsi_generic (s.sys.u o.r o.dev.stor.scsi_generic.t (systemlow systemlow)))
+
+(filecon "/dev/bsg/.+" char stor_scsi_generic)
+(filecon "/dev/sg[0-9]+" char stor_scsi_generic)
+
+(macro stor_unconfined_subject ((type ARG1))
+    (typeattributeset stor_unconfined_subject ARG1))
