@@ -16,6 +16,8 @@
         (allow entity_unconfined_subject t (dir (all)))
         (allow entity_unconfined_subject t (fd (all)))
         (allow entity_unconfined_subject t (lnk_file (all)))
+        (allow entity_unconfined_subject t (chr_file (all)))
+        (allow entity_unconfined_subject t (blk_file (all)))
         (allow entity_unconfined_subject t (fifo_file (all)))
         (allow entity_unconfined_subject t (socket (all)))
         (allow entity_unconfined_subject t (tcp_socket (all)))
