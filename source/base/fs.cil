@@ -203,6 +203,7 @@
 (context fs_proc (s.sys.u o.r o.fs.proc.t (systemlow systemlow)))
 
 (genfscon "proc" "/" fs_proc)
+(genfscon "proc" "/sysvipc" fs_proc) ; BUG: without this it defaults to o.sys.sysctl.t due to sysctl genfscon statement
 
 (filecon "/proc/.*" any ())
 (filecon "/proc" dir ())
