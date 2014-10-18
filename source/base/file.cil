@@ -38,6 +38,3 @@
 
 (context file (s.sys.u o.r o.file.t (systemlow systemlow)))
 (filecon "/.*" any file)
-
-(filecon "/run/user/.*" any ())
-(filecon "/run/initramfs/.need_shutdown" file ())
