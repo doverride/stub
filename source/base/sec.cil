@@ -7,8 +7,8 @@
     (block sec
         (block fs
             (type t)
+            (typeattributeset sec_bool_object t)
             (call fs_object (t))
-            (call sec_bool_object (t))
         )
     )
 )
