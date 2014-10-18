@@ -225,5 +225,11 @@
 
 (context fs_tmpfs (s.sys.u o.r o.fs.tmpfs.t (systemlow systemlow)))
 
+(filecon "/run/user/.*" any ())
+(filecon "/run/initramfs/.need_shutdown" file ())
+
+(filecon "/tmp/.*" any ())
+(filecon "/tmp" dir ())
+
 (fsuse trans "mqueue" fs_tmpfs)
 (fsuse trans "tmpfs" fs_tmpfs)
