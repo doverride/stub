@@ -8,7 +8,6 @@
 
 (allow subject_unconfined_subject subject (process (all)))
 (allow subject_unconfined_subject subject (capability (all)))
-(allow subject_unconfined_subject subject (capability2 (all)))
 (allow subject_unconfined_subject subject (file (all)))
 (allow subject_unconfined_subject subject (dir (all)))
 (allow subject_unconfined_subject subject (fd (all)))
@@ -40,6 +39,8 @@
 (allow subject_unconfined_subject subject (appletalk_socket (all)))
 (allow subject_unconfined_subject subject (key (all)))
 (allow subject_unconfined_subject subject (dccp_socket (all)))
+(allow subject_unconfined_subject subject (memprotect (all)))
+(allow subject_unconfined_subject subject (capability2 (all)))
 (allow subject_unconfined_subject subject (tun_socket (all)))
 
 (macro subject ((type ARG1))
