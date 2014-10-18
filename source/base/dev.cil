@@ -3,7 +3,7 @@
 (typeattribute dev_object)
 (typeattribute dev_unconfined_subject)
 
-(in o.file
+(in o
     (block dev
         (block null
             (type t)
@@ -24,7 +24,7 @@
 (macro dev_unconfined_subject ((type ARG1))
     (typeattributeset dev_unconfined_subject ARG1))
 
-(context null (s.sys.u o.r o.file.dev.null.t (systemlow systemlow)))
+(context null (s.sys.u o.r o.dev.null.t (systemlow systemlow)))
 (sidcontext devnull null)
 
 (filecon "/dev/full" char null)
