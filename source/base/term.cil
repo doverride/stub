@@ -4,21 +4,6 @@
 
 (in o.dev
     (block term
-        (block console
-            (type t)
-            (call dev_object (t))
-        )
-
-        (block devtty
-            (type t)
-            (call dev_object (t))
-        )
-
-        (block ptmx
-            (type t)
-            (call dev_object (t))
-        )
-
         (block tty
             (type t)
             (call term_serial_object (t))
@@ -44,18 +29,6 @@
 (macro term_tty_object ((type ARG1))
     (call term_serial_object (ARG1))
     (typeattributeset term_tty_object ARG1))
-
-(context term_console (s.sys.u o.r o.dev.term.console.t (systemlow systemlow)))
-
-(filecon "/dev/console" char term_console)
-
-(context term_devtty (s.sys.u o.r o.dev.term.devtty.t (systemlow systemlow)))
-
-(filecon "/dev/tty" char term_devtty)
-
-(context term_ptmx (s.sys.u o.r o.dev.term.ptmx.t (systemlow systemlow)))
-
-(filecon "/dev/ptmx" char term_ptmx)
 
 (context term_tty (s.sys.u o.r o.dev.term.tty.t (systemlow systemlow)))
 

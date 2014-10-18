@@ -40,20 +40,6 @@
     )
 )
 
-(in o.dev
-    (block net
-        (block ppp
-            (type t)
-            (call dev_object (t))
-        )
-
-        (block tun_tap
-            (type t)
-            (call dev_object (t))
-        )
-    )
-)
-
 (allow net_unconfined_subject net_node_object (node (all)))
 (allow net_unconfined_subject net_if_object (netif (all)))
 (allow net_unconfined_subject net_packet_object (packet (all)))
@@ -113,11 +99,3 @@
 (context net_node (s.sys.u o.r o.net.node.t (systemlow mls_systemhigh)))
 
 (sidcontext node net_node)
-
-(context net_ppp (s.sys.u o.r o.dev.net.ppp.t (systemlow systemlow)))
-
-(filecon "/dev/ppp" char net_ppp)
-
-(context net_tun_tap (s.sys.u o.r o.dev.net.tun_tap.t (systemlow systemlow)))
-
-(filecon "/dev/net/tun" char net_tun_tap)
