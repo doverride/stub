@@ -36,101 +36,94 @@
     )
 )
 
+(block proc
+    (blockabstract proc)
+        (type t)
+        (call sys_proc_object (t))
+)
+
+(block sysctl
+    (blockabstract sysctl)
+        (type t)
+        (call sys_sysctl_object (t))
+)
+
 (in o
     (block sys
         (block proc
             (block kallsyms
-                (type t)
-                (call sys_proc_object (t))
+                (blockinherit proc)
             )
 
             (block kcore
-                (type t)
-                (call sys_proc_object (t))
+                (blockinherit proc)
             )
 
             (block kmsg
-                (type t)
-                (call sys_proc_object (t))
+                (blockinherit proc)
             )
 
             (block mdstat
-                (type t)
-                (call sys_proc_object (t))
+                (blockinherit proc)
             )
 
             (block mtrr
-                (type t)
-                (call sys_proc_object (t))
+                (blockinherit proc)
             )
 
             (block net
-                (type t)
-                (call sys_proc_object (t))
+                (blockinherit proc)
             )
 
             (block sysrq
-                (type t)
-                (call sys_proc_object (t))
+                (blockinherit proc)
             )
         )
 
         (block sysctl
-            (type t)
-            (call sys_sysctl_object (t))
+            (blockinherit sysctl)
 
             (block crypto
-                (type t)
-                (call sys_sysctl_object (t))
+                (blockinherit sysctl)
             )
 
             (block dev
-                (type t)
-                (call sys_sysctl_object (t))
+                (blockinherit sysctl)
             )
 
             (block fs
-                (type t)
-                (call sys_sysctl_object (t))
+                (blockinherit sysctl)
             )
 
             (block irq
-                (type t)
-                (call sys_sysctl_object (t))
+                (blockinherit sysctl)
             )
 
             (block kernel
-                (type t)
-                (call sys_sysctl_object (t))
+                (blockinherit sysctl)
             )
 
             (block net
-                (type t)
-                (call sys_sysctl_object (t))
+                (blockinherit sysctl)
 
                 (block unix
-                    (type t)
-                    (call sys_sysctl_object (t))
+                    (blockinherit sysctl)
                 )
             )
 
             (block security
-                (type t)
-                (call sys_sysctl_object (t))
+                (blockinherit sysctl)
             )
 
             (block usermodehelper
-                (type t)
-                (call sys_sysctl_object (t))
+                (blockinherit sysctl)
             )
 
             (block vm
-                (type t)
-                (call sys_sysctl_object (t))
+                (blockinherit sysctl)
 
                 (block overcommit
-                    (type t)
-                    (call sys_sysctl_object (t))
+                    (blockinherit sysctl)
                 )
             )
         )

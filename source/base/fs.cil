@@ -3,104 +3,90 @@
 (typeattribute fs_object)
 (typeattribute fs_unconfined_subject)
 
-(in o
-    (block fs
+(block fs
+    (blockabstract fs)
         (type t)
         (call fs_object (t))
+)
+
+(in o
+    (block fs
+        (blockinherit fs)
 
         (block aio
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block anon_inodefs
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block autofs
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block bdev
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block cgroup
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block configfs
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block debugfs
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block devpts
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block devtmpfs
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block dosfs
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block drm
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block efivarfs
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block hugetlbfs
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block proc
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block pstore
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block removable
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block rootfs
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block sysfs
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
 
         (block tmpfs
-            (type t)
-            (call fs_object (t))
+            (blockinherit fs)
         )
     )
 )

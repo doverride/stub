@@ -9,10 +9,15 @@
 (typeattribute file_object)
 (typeattribute file_unconfined_subject)
 
-(in o
-    (block file
+(block file
+    (blockabstract file)
         (type t)
         (call file_object (t))
+)
+
+(in o
+    (block file
+        (blockinherit file)
 
         ; temporary workaround
         (call fs_associate_tmpfs_object (t))

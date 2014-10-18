@@ -11,31 +11,56 @@
 
 (typeattribute net_unconfined_subject)
 
+(block port
+    (blockabstract port)
+        (type t)
+        (call net_port_object (t))
+)
+
+(block node
+    (blockabstract node)
+        (type t)
+        (call net_node_object (t))
+)
+
+(block if
+    (blockabstract if)
+        (type t)
+        (call net_if_object (t))
+)
+
+(block packet
+    (blockabstract packet)
+        (type t)
+        (call net_packet_object (t))
+)
+
+(block peer
+    (blockabstract peer)
+        (type t)
+        (call net_peer_object (t))
+)
+
 (in o
     (block net
-        (block if
-            (type t)
-            (call net_if_object (t))
+        (block port
+            (blockinherit port)
         )
 
         (block node
-            (type t)
-            (call net_node_object (t))
+            (blockinherit node)
+        )
+
+        (block if
+            (blockinherit if)
         )
 
         (block packet
-            (type t)
-            (call net_packet_object (t))
+            (blockinherit packet)
         )
 
         (block peer
-            (type t)
-            (call net_peer_object (t))
-        )
-
-        (block port
-            (type t)
-            (call net_port_object (t))
+            (blockinherit peer)
         )
     )
 )
@@ -61,13 +86,17 @@
 
 (call object_recv_unlabeled_peer (net_unconfined_subject))
 
-(macro net_if_object ((type ARG1))
+(macro net_port_object ((type ARG1))
     (call object (ARG1))
-    (typeattributeset net_if_object ARG1))
+    (typeattributeset net_port_object ARG1))
 
 (macro net_node_object ((type ARG1))
     (call object (ARG1))
     (typeattributeset net_node_object ARG1))
+
+(macro net_if_object ((type ARG1))
+    (call object (ARG1))
+    (typeattributeset net_if_object ARG1))
 
 (macro net_packet_object ((type ARG1))
     (call object (ARG1))
@@ -76,10 +105,6 @@
 (macro net_peer_object ((type ARG1))
     (call object (ARG1))
     (typeattributeset net_peer_object ARG1))
-
-(macro net_port_object ((type ARG1))
-    (call object (ARG1))
-    (typeattributeset net_port_object ARG1))
 
 (macro net_unconfined_subject ((type ARG1))
     (typeattributeset net_unconfined_subject ARG1))

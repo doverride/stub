@@ -1,25 +1,27 @@
 (typeattribute stor_unconfined_subject)
 
+(block stor
+    (blockabstract stor)
+        (type t)
+        (call dev_object (t))
+)
+
 (in o.dev
     (block stor
         (block fixed_disk
-            (type t)
-            (call dev_object (t))
+            (blockinherit stor)
         )
 
         (block fuse
-            (type t)
-            (call dev_object (t))
+            (blockinherit stor)
         )
 
         (block removable
-            (type t)
-            (call dev_object (t))
+            (blockinherit stor)
         )
 
         (block scsi_generic
-            (type t)
-            (call dev_object (t))
+            (blockinherit stor)
         )
     )
 )

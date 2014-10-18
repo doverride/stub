@@ -3,171 +3,144 @@
 (typeattribute dev_object)
 (typeattribute dev_unconfined_subject)
 
+(block dev
+    (blockabstract dev)
+        (type t)
+        (call dev_object (t))
+)
+
 (in o
     (block dev
         (block apm
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block autofs
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block clock
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block console
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block cpu
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block devtty
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block dri
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block event
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block framebuf
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block kmsg
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block loop_control
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block lvm_control
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block memory
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block mouse
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block net_control
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block null
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block nvram
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block ppp
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block ptmx
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block random
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block sound
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block tun_tap
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block uhid
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block urandom
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block usb
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block usbmon
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block v4l
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block vfio
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block vhci
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block vhost
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block wireless
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block xserver_misc
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
 
         (block zero
-            (type t)
-            (call dev_object (t))
+            (blockinherit dev)
         )
     )
 )
