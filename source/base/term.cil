@@ -2,16 +2,18 @@
 (typeattribute term_serial_object)
 (typeattribute term_tty_object)
 
-(in o.dev
-    (block term
-        (block tty
-            (type t)
-            (call term_serial_object (t))
-        )
+(in o
+    (block dev
+        (block term
+            (block tty
+                (type t)
+                (call term_serial_object (t))
+            )
 
-        (block virtio
-            (type t)
-            (call term_serial_object (t))
+            (block virtio
+                (type t)
+                (call term_serial_object (t))
+            )
         )
     )
 )
