@@ -20,7 +20,17 @@
             (call dev_object (t))
         )
 
+        (block console
+            (type t)
+            (call dev_object (t))
+        )
+
         (block cpu
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block devtty
             (type t)
             (call dev_object (t))
         )
@@ -80,12 +90,27 @@
             (call dev_object (t))
         )
 
+        (block ppp
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block ptmx
+            (type t)
+            (call dev_object (t))
+        )
+
         (block random
             (type t)
             (call dev_object (t))
         )
 
         (block sound
+            (type t)
+            (call dev_object (t))
+        )
+
+        (block tun_tap
             (type t)
             (call dev_object (t))
         )
@@ -172,9 +197,17 @@
 (filecon "/dev/hpet" char dev_clock)
 (filecon "/dev/rtc[0-9]+" char dev_clock)
 
+(context dev_console (s.sys.u o.r o.dev.console.t (systemlow systemlow)))
+
+(filecon "/dev/console" char dev_console)
+
 (context dev_cpu (s.sys.u o.r o.dev.cpu.t (systemlow systemlow)))
 
 (filecon "/dev/cpu/.+" char dev_cpu)
+
+(context dev_devtty (s.sys.u o.r o.dev.devtty.t (systemlow systemlow)))
+
+(filecon "/dev/tty" char dev_devtty)
 
 (context dev_dri (s.sys.u o.r o.dev.dri.t (systemlow systemlow)))
 
@@ -230,6 +263,14 @@
 
 (filecon "/dev/nvram" char dev_nvram)
 
+(context dev_ppp (s.sys.u o.r o.dev.ppp.t (systemlow systemlow)))
+
+(filecon "/dev/ppp" char dev_ppp)
+
+(context dev_ptmx (s.sys.u o.r o.dev.ptmx.t (systemlow systemlow)))
+
+(filecon "/dev/ptmx" char dev_ptmx)
+
 (context dev_random (s.sys.u o.r o.dev.random.t (systemlow systemlow)))
 
 (filecon "/dev/random" char dev_random)
@@ -237,6 +278,10 @@
 (context dev_sound (s.sys.u o.r o.dev.sound.t (systemlow systemlow)))
 
 (filecon "/dev/snd/.+" char dev_sound)
+
+(context dev_tun_tap (s.sys.u o.r o.dev.tun_tap.t (systemlow systemlow)))
+
+(filecon "/dev/net/tun" char dev_tun_tap)
 
 (context dev_uhid (s.sys.u o.r o.dev.uhid.t (systemlow systemlow)))
 
