@@ -17,8 +17,9 @@
     source/object.cil \
     source/polcap.cil \
     source/subject.cil \
+    source/support/classperms.cil \
+    source/support/classmaps.cil \
     source/support/filepatterns.cil \
     source/support/ipcpatterns.cil \
     source/support/miscpatterns.cil \
-    source/support/permissionsets.cil \
     -M false -o policy/policy.29 -f contexts/files/file_contexts

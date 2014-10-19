@@ -1,22 +1,62 @@
+(boolean subject_mmap_low true)
+
+(typeattribute entry_file_object)
 (typeattribute subject)
 (typeattribute subject_unconfined_subject)
 
 (block s
 )
 
+(in o
+    (block sec
+        (block subject
+            (block mmap_low
+                (blockinherit bool)
+
+                (context subject_mmap_low (s.sys.u o.r t
+                    (systemlow systemlow)))
+
+                (genfscon "selinuxfs" "/booleans/subject_mmap_low"
+                    subject_mmap_low)
+            )
+        )
+    )
+)
+
 (call object_roletype (subject))
 
-(allow subject_unconfined_subject subject (process (all)))
-(allow subject_unconfined_subject subject (capability (all)))
-(allow subject_unconfined_subject subject (file (all)))
-(allow subject_unconfined_subject subject (dir (all)))
+(typeattribute not_entry_file_object)
+(typeattributeset not_entry_file_object (not (entry_file_object)))
+(neverallow not_subject not_entry_file_object (file (entrypoint)))
+
+(typeattribute not_subject)
+(typeattributeset not_subject (not subject))
+(neverallow subject not_subject (process (transition dyntransition)))
+
+(typeattribute can_set_current_context)
+(typeattribute not_can_set_current_context)
+(typeattributeset not_can_set_current_context
+    (and (subject) (not (can_set_current_context))))
+(neverallow not_can_set_current_context self (process (setcurrent)))
+
+(typeattribute can_mmap_low)
+(typeattribute not_can_mmap_low)
+(typeattributeset not_can_mmap_low
+    (and (subject) (not (can_mmap_low))))
+(neverallow not_can_mmap_low self (memprotect (mmap_zero)))
+
+(allow subject_unconfined_subject subject
+    all_process_perms_except_transition_ptrace_setsched_dyntransition_setcurrent_execmem_execstack_and_execheap)
+
+(allow subject_unconfined_subject subject rw_file_perms)
+(allow subject_unconfined_subject subject list_dir_perms)
+(allow subject_unconfined_subject subject read_lnk_file_perms)
+
 (allow subject_unconfined_subject subject (fd (all)))
-(allow subject_unconfined_subject subject (lnk_file (all)))
-(allow subject_unconfined_subject subject (fifo_file (all)))
 (allow subject_unconfined_subject subject (socket (all)))
-(allow subject_unconfined_subject subject (tcp_socket (all)))
-(allow subject_unconfined_subject subject (udp_socket (all)))
-(allow subject_unconfined_subject subject (rawip_socket (all)))
+(allow subject_unconfined_subject subject create_tcp_stream_socket_perms)
+(allow subject_unconfined_subject subject create_udp_socket_perms)
+(allow subject_unconfined_subject subject create_rawip_socket_perms)
 (allow subject_unconfined_subject subject (netlink_socket (all)))
 (allow subject_unconfined_subject subject (packet_socket (all)))
 (allow subject_unconfined_subject subject (unix_stream_socket (all)))
@@ -38,13 +78,29 @@
 (allow subject_unconfined_subject subject (netlink_kobject_uevent_socket (all)))
 (allow subject_unconfined_subject subject (appletalk_socket (all)))
 (allow subject_unconfined_subject subject (key (all)))
-(allow subject_unconfined_subject subject (dccp_socket (all)))
-(allow subject_unconfined_subject subject (memprotect (all)))
-(allow subject_unconfined_subject subject (capability2 (all)))
+(allow subject_unconfined_subject subject create_dccp_stream_socket_perms)
 (allow subject_unconfined_subject subject (tun_socket (all)))
+
+(allow subject_unconfined_subject entry_file_object (file (entrypoint)))
 
 (macro subject ((type ARG1))
     (typeattributeset subject ARG1))
+
+(macro subject_dyntrans_subject ((type ARG1))
+    (typeattributeset can_set_current_context ARG1))
+
+(macro subject_entry_object ((type ARG1))
+    (typeattributeset entry_file_object ARG1))
+
+(macro subject_mmap_low ((type ARG1))
+    (typeattributeset can_mmap_low ARG1)
+    (booleanif subject_mmap_low
+        (true
+            (allow ARG1 self (memprotect (mmap_zero))))))
+
+(macro subject_mmap_low_uncond ((type ARG1))
+    (allow ARG1 self (memprotect (mmap_zero)))
+    (typeattributeset can_mmap_low ARG1))
 
 (macro subject_unconfined_subject ((type ARG1))
     (typeattributeset subject_unconfined_subject ARG1))

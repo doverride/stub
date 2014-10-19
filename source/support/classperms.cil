@@ -1,6 +1,28 @@
+(classpermission all_security_perms_except_load_policy_and_setenforce)
+(classpermissionset all_security_perms_except_load_policy_and_setenforce
+    (security (not (load_policy setenforce))))
+
+(classpermission
+    all_process_perms_except_transition_ptrace_setsched_dyntransition_setcurrent_execmem_execstack_and_execheap)
+(classpermissionset
+    all_process_perms_except_transition_ptrace_setsched_dyntransition_setcurrent_execmem_execstack_and_execheap
+    (process (not (transition ptrace setsched dyntransition setcurrent
+    execmem execstack execheap))))
+
+(classpermission signal_perms)
+(classpermissionset signal_perms (process (sigchld sigkill sigstop signull
+    signal)))
+
 (classpermission mount_fs_perms)
 (classpermissionset mount_fs_perms
 (filesystem (mount remount unmount getattr)))
+
+(classpermission all_file_perms_except_getattr)
+(classpermissionset all_file_perms_except_getattr (file (not getattr)))
+
+(classpermission all_file_perms_except_execmod_and_entrypoint)
+(classpermissionset all_file_perms_except_execmod_and_entrypoint (file
+    (not (execmod entrypoint))))
 
 (classpermission read_file_perms)
 (classpermissionset read_file_perms (file (getattr open read lock ioctl)))
@@ -76,6 +98,9 @@
 (classpermissionset add_entry_dir_perms (dir (getattr search open read
     lock ioctl write add_name)))
 
+(classpermission all_dir_perms_except_execmod)
+(classpermissionset all_dir_perms_except_execmod (dir (not (execmod))))
+
 (classpermission del_entry_dir_perms)
 (classpermissionset del_entry_dir_perms (dir (getattr search open read
     lock ioctl write remove_name)))
@@ -110,6 +135,10 @@
 
 (classpermission read_lnk_file_perms)
 (classpermissionset read_lnk_file_perms (lnk_file (getattr read)))
+
+(classpermission all_lnk_file_perms_except_execmod)
+(classpermissionset all_lnk_file_perms_except_execmod (lnk_file (not
+    (execmod))))
 
 (classpermission append_lnk_file_perms)
 (classpermissionset append_lnk_file_perms (lnk_file (getattr append lock
@@ -151,6 +180,10 @@
 (classpermission read_chr_file_perms)
 (classpermissionset read_chr_file_perms (chr_file (getattr open read lock
     ioctl)))
+
+(classpermission all_chr_file_perms_except_execmod)
+(classpermissionset all_chr_file_perms_except_execmod (chr_file (not
+    (execmod))))
 
 (classpermission append_chr_file_perms)
 (classpermissionset append_chr_file_perms (chr_file (getattr open append
@@ -203,6 +236,14 @@
 (classpermissionset relabel_chr_file_perms (chr_file (getattr relabelfrom
     relabelto)))
 
+(classpermission rw_term_perms)
+(classpermissionset rw_term_perms (chr_file (getattr open read write
+    append ioctl)))
+
+(classpermission rw_inherited_term_perms)
+(classpermissionset rw_inherited_term_perms (chr_file (getattr read write
+    append ioctl)))
+
 (classpermission read_blk_file_perms)
 (classpermissionset read_blk_file_perms (blk_file (getattr open read lock
     ioctl)))
@@ -214,6 +255,10 @@
 (classpermission append_inherited_blk_file_perms)
 (classpermissionset append_inherited_blk_file_perms (blk_file (getattr
     append lock ioctl)))
+
+(classpermission all_blk_file_perms_except_execmod)
+(classpermissionset all_blk_file_perms_except_execmod (blk_file (not
+    (execmod))))
 
 (classpermission write_blk_file_perms)
 (classpermissionset write_blk_file_perms (blk_file (getattr open write
@@ -257,6 +302,10 @@
 (classpermission relabel_blk_file_perms)
 (classpermissionset relabel_blk_file_perms (blk_file (getattr relabelfrom
     relabelto)))
+
+(classpermission all_sock_file_perms_except_execmod)
+(classpermissionset all_sock_file_perms_except_execmod (sock_file (not
+    (execmod))))
 
 (classpermission read_sock_file_perms)
 (classpermissionset read_sock_file_perms (sock_file (getattr open
@@ -304,6 +353,10 @@
 (classpermission relabel_sock_file_perms)
 (classpermissionset relabel_sock_file_perms (sock_file (getattr
     relabelfrom relabelto)))
+
+(classpermission all_fifo_file_perms_except_execmod)
+(classpermissionset all_fifo_file_perms_except_execmod (fifo_file (not
+    (execmod))))
 
 (classpermission read_fifo_file_perms)
 (classpermissionset read_fifo_file_perms (fifo_file (getattr open read
@@ -693,15 +746,3 @@
 (classpermissionset create_tun_socket_perms (tun_socket
     (create ioctl read getattr write setattr append bind connect getopt
     setopt shutdown)))
-
-(classpermission signal_perms)
-(classpermissionset signal_perms (process (sigchld sigkill sigstop signull
-    signal)))
-
-(classpermission rw_term_perms)
-(classpermissionset rw_term_perms (chr_file (getattr open read write
-    append ioctl)))
-
-(classpermission rw_inherited_term_perms)
-(classpermissionset rw_inherited_term_perms (chr_file (getattr read write
-    append ioctl)))

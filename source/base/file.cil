@@ -20,19 +20,17 @@
         (blockinherit file)
 
         ; temporary workaround
-        (call fs_associate_tmpfs_object (t))
+        (call fs_associate_tmpfs (t))
+
+        (context file_file (s.sys.u o.r t (systemlow systemlow)))
+
+        (filecon "/.*" any file_file)
     )
 )
 
-(call fs_associate_fs_object (file_object))
+(call fs_associate_fs (file_object))
 
-(allow file_unconfined_subject file_object (file (all)))
-(allow file_unconfined_subject file_object (dir (all)))
-(allow file_unconfined_subject file_object (lnk_file (all)))
-(allow file_unconfined_subject file_object (chr_file (all)))
-(allow file_unconfined_subject file_object (blk_file (all)))
-(allow file_unconfined_subject file_object (sock_file (all)))
-(allow file_unconfined_subject file_object (fifo_file (all)))
+(allow file_unconfined_subject file_object (all_file_objects (not_entrypoint_and_execmod)))
 
 (macro file_object ((type ARG1))
     (call object (ARG1))
@@ -40,7 +38,3 @@
 
 (macro file_unconfined_subject ((type ARG1))
     (typeattributeset file_unconfined_subject ARG1))
-
-(context file_file (s.sys.u o.r o.file.t (systemlow systemlow)))
-
-(filecon "/.*" any file_file)

@@ -69,15 +69,19 @@
 (allow net_unconfined_subject net_if_object (netif (all)))
 (allow net_unconfined_subject net_packet_object (packet (all)))
 
-(allow net_unconfined_subject net_port_object (tcp_socket (all)))
-(allow net_unconfined_subject net_port_object (udp_socket (all)))
-(allow net_unconfined_subject net_port_object (rawip_socket (all)))
-(allow net_unconfined_subject net_port_object (dccp_socket (all)))
+(allow net_unconfined_subject net_port_object (tcp_socket
+    (send_msg recv_msg name_bind name_connect)))
+(allow net_unconfined_subject net_port_object (udp_socket
+    (send_msg recv_msg name_bind)))
+(allow net_unconfined_subject net_port_object (rawip_socket
+    (send_msg recv_msg name_bind)))
+(allow net_unconfined_subject net_port_object (dccp_socket
+    (send_msg recv_msg name_bind name_connect)))
 
-(allow net_unconfined_subject net_node_object (tcp_socket (all)))
-(allow net_unconfined_subject net_node_object (udp_socket (all)))
-(allow net_unconfined_subject net_node_object (rawip_socket (all)))
-(allow net_unconfined_subject net_node_object (dccp_socket (all)))
+(allow net_unconfined_subject net_node_object (tcp_socket (node_bind)))
+(allow net_unconfined_subject net_node_object (udp_socket (node_bind)))
+(allow net_unconfined_subject net_node_object (rawip_socket (node_bind)))
+(allow net_unconfined_subject net_node_object (dccp_socket (node_bind)))
 
 (call object_recvfrom_unlabeled_tcp_socket (net_unconfined_subject))
 (call object_recvfrom_unlabeled_udp_socket (net_unconfined_subject))
