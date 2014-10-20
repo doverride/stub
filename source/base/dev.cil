@@ -3,6 +3,8 @@
 (typeattribute dev_object)
 (typeattribute dev_unconfined_subject)
 
+(typeattribute dev_stor_object)
+
 (block dev
     (blockabstract dev)
         (type t)
@@ -297,15 +299,24 @@
 (neverallow not_can_write_memory_or_dev_unconfined_subject
     o.dev.memory.t (chr_file (append write)))
 
+(typeattribute all_dev_objects_except_stor_objects)
+(typeattributeset all_dev_objects_except_stor_objects (and (dev_object)
+    (not (dev_stor_object))))
+
 (call fs_associate_devtmpfs (dev_object))
 
 (allow dev_unconfined_subject self (capability (sys_rawio)))
 
-(allow dev_unconfined_subject dev_object all_chr_file_perms_except_execmod)
+(allow dev_unconfined_subject all_dev_objects_except_stor_objects
+    all_chr_file_perms_except_execmod)
 
 (macro dev_object ((type ARG1))
     (call object (ARG1))
     (typeattributeset dev_object ARG1))
+
+(macro dev_stor_object ((type ARG1))
+    (call dev_object (ARG1))
+    (typeattributeset dev_stor_object ARG1))
 
 (macro dev_read_memory ((type ARG1))
     (call fs_search_devtmpfs (ARG1))

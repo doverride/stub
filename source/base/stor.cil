@@ -3,7 +3,7 @@
 (block stor
     (blockabstract stor)
         (type t)
-        (call dev_object (t))
+        (call dev_stor_object (t))
 )
 
 (in o.dev

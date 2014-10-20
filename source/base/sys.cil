@@ -39,7 +39,8 @@
         (call sys_rw_sysctl_security (t))
         (call sys_rw_sysctl_usermodehelper (t))
 
-        (call stor_unconfined_subject (t))
+        (optional sys_optional_stor
+            (call stor_unconfined_subject (t)))
     )
 )
 

@@ -15,19 +15,15 @@
     (block sec
         (block fs
             (type t)
-            (typeattributeset sec_bool_object t)
             (call fs_object (t))
+            (typeattributeset sec_bool_object t)
 
             (context sec_fs_securityfs (s.sys.u o.r t (systemlow systemlow)))
 
             (genfscon "selinuxfs" "/" sec_fs_securityfs)
             (genfscon "securityfs" "/" sec_fs_securityfs)
         )
-    )
-)
 
-(in o
-    (block sec
         (block load_policy
             (blockinherit bool)
 
@@ -61,7 +57,6 @@
 (neverallow not_can_setsecparam_or_sec_unconfined_subject
     o.sec.fs.t (security (setsecparam)))
 
-(allow sec_unconfined_subject o.sec.fs.t rw_file_perms)
 (allow sec_unconfined_subject o.sec.fs.t list_dir_perms)
 (allow sec_unconfined_subject o.sec.fs.t read_lnk_file_perms)
 
