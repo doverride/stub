@@ -22,9 +22,18 @@
         (userlevel u systemlow)
         (userrange u (systemlow systemhigh))
 
+        ; temporary workaround
+        (allow t self all_capability_perms_except_sys_module_and_sys_nice)
+        (allow t self all_capability2_perms_except_mac_override_and_mac_admin)
+        (allow t self (process (transition dyntransition setcurrent)))
+        (allow t self all_fifo_file_perms_except_execmod)
+
         (call entity_unconfined_subject (t))
 
         (call object_unconfined_subject (t))
+
+        (call subject_dyntrans_subject (t))
+        (call subject_mmap_low (t))
         (call subject_unconfined_subject (t))
 
         (call dev_unconfined_subject (t))

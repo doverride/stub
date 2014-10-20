@@ -13,6 +13,10 @@
 (classpermissionset signal_perms (process (sigchld sigkill sigstop signull
     signal)))
 
+(classpermission all_capability_perms_except_sys_module_and_sys_nice)
+(classpermissionset all_capability_perms_except_sys_module_and_sys_nice
+    (capability (not (sys_module sys_nice))))
+
 (classpermission mount_fs_perms)
 (classpermissionset mount_fs_perms
 (filesystem (mount remount unmount getattr)))
@@ -736,6 +740,10 @@
 (classpermissionset connected_dccp_stream_socket_perms (dccp_socket
     (create ioctl read getattr write setattr append bind getopt setopt
     shutdown listen accept)))
+
+(classpermission all_capability2_perms_except_mac_override_and_mac_admin)
+(classpermissionset all_capability2_perms_except_mac_override_and_mac_admin
+    (capability2 (not (mac_override mac_admin))))
 
 (classpermission rw_tun_socket_perms)
 (classpermissionset rw_tun_socket_perms (tun_socket
