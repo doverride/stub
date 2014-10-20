@@ -211,7 +211,6 @@
                 (context sys_sysctl_usermodehelper (s.sys.u o.r t (systemlow systemlow)))
 
                 (genfscon "proc" "/sys/kernel/core_pattern" sys_sysctl_usermodehelper)
-                (genfscon "proc" "/sys/kernel/hotplug" sys_sysctl_usermodehelper)
                 (genfscon "proc" "/sys/kernel/modprobe" sys_sysctl_usermodehelper)
                 (genfscon "proc" "/sys/kernel/poweroff_cmd" sys_sysctl_usermodehelper)
                 (genfscon "proc" "/sys/kernel/usermodehelper" sys_sysctl_usermodehelper)
