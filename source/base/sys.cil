@@ -333,7 +333,10 @@
     (typeattributeset can_read_kernel_message ARG1))
 
 (macro sys_rw_sysctl_security ((type ARG1))
-    (call sys_search_sysctl_kernel (ARG1))
+    (call sys_search_sysctl (ARG1))
+    (allow ARG1 o.sys.sysctl.fs.t search_dir_perms)
+    (allow ARG1 o.sys.sysctl.kernel.t search_dir_perms)
+    (allow ARG1 o.sys.sysctl.vm.t search_dir_perms)
     (allow ARG1 o.sys.sysctl.security.t rw_file_perms)
     (typeattributeset
         can_write_sysctl_security_and_usermodehelper_object ARG1))
@@ -356,6 +359,10 @@
 (macro sys_search_sysctl_kernel ((type ARG1))
     (call sys_search_sysctl (ARG1))
     (allow ARG1 o.sys.sysctl.kernel.t search_dir_perms))
+
+(macro sys_search_sysctl_vm ((type ARG1))
+    (call sys_search_sysctl (ARG1))
+    (allow ARG1 o.sys.sysctl.vm.t search_dir_perms))
 
 (macro sys_unconfined_subject ((type ARG1))
     (call sys_load_kernel_module (ARG1))
