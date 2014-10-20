@@ -45,6 +45,14 @@
             (genfscon "bdev" "/" fs_bdev)
         )
 
+        (block binfmt_misc
+            (blockinherit fs)
+
+            (context fs_binfmt_misc (s.sys.u o.r t (systemlow systemlow)))
+
+            (genfscon "binfmt_misc" "/" fs_binfmt_misc)
+        )
+
         (block cgroup
             (blockinherit fs)
 
