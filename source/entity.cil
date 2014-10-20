@@ -12,6 +12,8 @@
         (allow entity_unconfined_subject t signal_perms)
 
         (allow entity_unconfined_subject t (all_file_objects (not_entrypoint_and_execmod)))
+
+        (allow entity_unconfined_subject t (filesystem (all)))
     )
 )
 
