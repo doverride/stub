@@ -22,7 +22,7 @@
         (userlevel u systemlow)
         (userrange u (systemlow systemhigh))
 
-        ; temporary workaround
+        ; temporary workaround (unconfined)
         (allow t self all_capability_perms_except_sys_module_and_sys_nice)
         (allow t self all_capability2_perms_except_mac_override_and_mac_admin)
         (allow t self (process (transition dyntransition setcurrent)))
@@ -32,7 +32,7 @@
 
         (call object_unconfined_subject (t))
 
-        (call subject_dyntrans_subject (t))
+        (call subject_dynamic_subject_type_transition_subject (t))
         (call subject_mmap_low (t))
         (call subject_unconfined_subject (t))
 
@@ -44,14 +44,14 @@
 
         (call sys_unconfined_subject (t))
 
-        ; temporary workaround
+        ; temporary workaround (systemd-sysctl)
         (call sys_rw_sysctl_security (t))
         (call sys_rw_sysctl_usermodehelper (t))
 
         (optional sys_optional_stor
             (call stor_unconfined_subject (t)))
 
-        ; temporary workaround
+        ; temporary workaround (fedora)
         (allow t self (system (halt reboot status start stop
             undefined enable disable reload)))
         (allow t self (dbus (all)))
@@ -300,7 +300,7 @@
 (allow sys_unconfined_subject sys_sysctl_object list_dir_perms)
 (allow sys_unconfined_subject sys_sysctl_object read_lnk_file_perms)
 
-(call sys_mounton_sysctl_fs_dir (sys_unconfined_subject))
+(call sys_mounton_sysctl_fs_dir (sys_unconfined_subject)) ; /proc/sys/fs/binfmt_misc
 
 (booleanif (sys_load_kernel_module)
     (true

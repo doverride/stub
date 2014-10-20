@@ -19,7 +19,7 @@
     (block file
         (blockinherit file)
 
-        ; temporary workaround
+        ; temporary workaround (/tmp, /run/user)
         (call fs_associate_tmpfs (t))
 
         (context file_file (s.sys.u o.r t (systemlow systemlow)))
