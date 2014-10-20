@@ -299,13 +299,13 @@
 (neverallow not_can_write_memory_or_dev_unconfined_subject
     o.dev.memory.t (chr_file (append write)))
 
-(typeattribute all_dev_objects_except_stor_objects)
-(typeattributeset all_dev_objects_except_stor_objects (and (dev_object)
-    (not (dev_stor_object))))
-
 (call fs_associate_devtmpfs (dev_object))
 
 (allow dev_unconfined_subject self (capability (sys_rawio)))
+
+(typeattribute all_dev_objects_except_stor_objects)
+(typeattributeset all_dev_objects_except_stor_objects (and (dev_object)
+    (not (dev_stor_object))))
 
 (allow dev_unconfined_subject all_dev_objects_except_stor_objects
     all_chr_file_perms_except_execmod)

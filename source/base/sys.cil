@@ -31,9 +31,6 @@
         (call entity_unconfined_subject (t))
 
         (call object_unconfined_subject (t))
-
-        (call subject_dynamic_subject_type_transition_subject (t))
-        (call subject_mmap_low (t))
         (call subject_unconfined_subject (t))
 
         (call dev_unconfined_subject (t))

@@ -13,6 +13,7 @@ test -d policy || mkdir policy
     source/base/sys.cil \
     source/base/term.cil \
     source/config.cil \
+    source/constraints.cil \
     source/entity.cil \
     source/isid.cil \
     source/mls.cil \
