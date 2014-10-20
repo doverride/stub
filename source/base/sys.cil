@@ -50,6 +50,13 @@
 
         (optional sys_optional_stor
             (call stor_unconfined_subject (t)))
+
+        ; temporary workaround
+        (allow t self (system (halt reboot status start stop
+            undefined enable disable reload)))
+        (allow t self (dbus (all)))
+        (allow t self (passwd (all)))
+        (allow t file_object (service (all)))
     )
 )
 
@@ -294,6 +301,8 @@
 (allow sys_unconfined_subject sys_sysctl_object list_dir_perms)
 (allow sys_unconfined_subject sys_sysctl_object read_lnk_file_perms)
 
+(call sys_mounton_sysctl_fs_dir (sys_unconfined_subject))
+
 (booleanif (sys_load_kernel_module)
     (true
         (allow can_load_kernel_module self (capability (sys_nice sys_module)))
@@ -307,14 +316,17 @@
     (call object (ARG1))
     (typeattributeset sys_sysctl_object ARG1))
 
-(macro sys_load_kernel_module ((type ARG1))
-    (typeattributeset can_load_kernel_module ARG1))
-
 (macro sys_dump_kernel ((type ARG1))
     (call fs_search_proc (ARG1))
     (allow ARG1 self (capability (sys_rawio)))
     (allow ARG1 o.sys.proc.kcore.t read_file_perms)
     (typeattributeset can_dump_kernel ARG1))
+
+(macro sys_load_kernel_module ((type ARG1))
+    (typeattributeset can_load_kernel_module ARG1))
+
+(macro sys_mounton_sysctl_fs_dir ((type ARG1))
+    (allow ARG1 o.sys.sysctl.fs.t (dir (mounton))))
 
 (macro sys_read_kernel_message ((type ARG1))
     (call fs_search_proc (ARG1))
@@ -337,6 +349,10 @@
 (macro sys_search_sysctl ((type ARG1))
     (call fs_search_proc (ARG1))
     (allow ARG1 o.sys.sysctl.t search_dir_perms))
+
+(macro sys_search_sysctl_fs ((type ARG1))
+    (call sys_search_sysctl (ARG1))
+    (allow ARG1 o.sys.sysctl.fs.t search_dir_perms))
 
 (macro sys_search_sysctl_kernel ((type ARG1))
     (call sys_search_sysctl (ARG1))
