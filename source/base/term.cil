@@ -8,26 +8,24 @@
         (call term_serial_object (t))
 )
 
-(in o
-    (block dev
-        (block term
-            (block tty
-                (blockinherit serial)
+(in o.dev
+    (block term
+        (block tty
+            (blockinherit serial)
 
-                (context term_tty (s.sys.u o.r t (systemlow systemlow)))
+            (context term_tty (s.sys.u o.r t (systemlow systemlow)))
 
-                (filecon "/dev/hvc[0-9]+" char term_tty)
-                (filecon "/dev/tty.+" char term_tty)
-                (filecon "/dev/vcs[^/]*" char term_tty)
-            )
+            (filecon "/dev/hvc[0-9]+" char term_tty)
+            (filecon "/dev/tty.+" char term_tty)
+            (filecon "/dev/vcs[^/]*" char term_tty)
+        )
 
-            (block virtio
-                (blockinherit serial)
+        (block virtio
+            (blockinherit serial)
 
-                (context term_virtio (s.sys.u o.r t (systemlow systemlow)))
+            (context term_virtio (s.sys.u o.r t (systemlow systemlow)))
 
-                (filecon "/dev/vport[0-9]p[0-9]+" char term_virtio)
-            )
+            (filecon "/dev/vport[0-9]p[0-9]+" char term_virtio)
         )
     )
 )

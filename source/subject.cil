@@ -7,18 +7,16 @@
 (block s
 )
 
-(in o
-    (block sec
-        (block subject
-            (block mmap_low
-                (blockinherit bool)
+(in o.sec
+    (block subject
+        (block mmap_low
+            (blockinherit bool)
 
-                (context subject_mmap_low (s.sys.u o.r t
-                    (systemlow systemlow)))
+            (context subject_mmap_low (s.sys.u o.r t
+                (systemlow systemlow)))
 
-                (genfscon "selinuxfs" "/booleans/subject_mmap_low"
-                    subject_mmap_low)
-            )
+            (genfscon "selinuxfs" "/booleans/subject_mmap_low"
+                subject_mmap_low)
         )
     )
 )

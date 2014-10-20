@@ -227,18 +227,16 @@
     )
 )
 
-(in o
-    (block sec
-        (block sys
-            (block load_kernel_module
-                (blockinherit bool)
+(in o.sec
+    (block sys
+        (block load_kernel_module
+            (blockinherit bool)
 
-                (context sys_load_kernel_module (s.sys.u o.r t
-                    (systemlow systemlow)))
+            (context sys_load_kernel_module (s.sys.u o.r t
+                (systemlow systemlow)))
 
-                (genfscon "selinuxfs" "/booleans/sys_load_kernel_module"
-                    sys_load_kernel_module)
-            )
+            (genfscon "selinuxfs" "/booleans/sys_load_kernel_module"
+                sys_load_kernel_module)
         )
     )
 )
