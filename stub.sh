@@ -1,5 +1,7 @@
 #!/bin/sh
 
+test -d policy || mkdir policy
+
 /usr/bin/secilc -v -D \
     source/av.cil \
     source/base/dev.cil \
