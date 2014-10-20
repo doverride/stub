@@ -32,7 +32,7 @@
 
         (call object_unconfined_subject (t))
 
-        (call subject_dyntrans_subject (t))
+        (call subject_dynamic_subject_type_transition_subject (t))
         (call subject_mmap_low (t))
         (call subject_unconfined_subject (t))
 

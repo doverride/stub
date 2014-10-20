@@ -84,7 +84,7 @@
 (macro subject ((type ARG1))
     (typeattributeset subject ARG1))
 
-(macro subject_dyntrans_subject ((type ARG1))
+(macro subject_dynamic_subject_type_transition_subject ((type ARG1))
     (typeattributeset can_set_current_context ARG1))
 
 (macro subject_entry_object ((type ARG1))
