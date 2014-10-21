@@ -36,35 +36,35 @@
     )
 )
 
-(typeattribute can_load_policy)
-(typeattribute not_can_load_policy_or_sec_unconfined_subject)
-(typeattributeset not_can_load_policy_or_sec_unconfined_subject
-    (not (can_load_policy sec_unconfined_subject)))
-(neverallow not_can_load_policy_or_sec_unconfined_subject
+(typeattribute sec_can_load_policy)
+(typeattribute sec_not_can_load_policy_or_sec_unconfined_subject)
+(typeattributeset sec_not_can_load_policy_or_sec_unconfined_subject
+    (not (sec_can_load_policy sec_unconfined_subject)))
+(neverallow sec_not_can_load_policy_or_sec_unconfined_subject
     o.sec.fs.t (security (load_policy)))
 
-(typeattribute can_setenforce)
-(typeattribute not_can_setenforce_or_sec_unconfined_subject)
-(typeattributeset not_can_setenforce_or_sec_unconfined_subject
-    (not (can_setenforce sec_unconfined_subject)))
-(neverallow not_can_setenforce_or_sec_unconfined_subject
+(typeattribute sec_can_setenforce)
+(typeattribute sec_not_can_setenforce_or_sec_unconfined_subject)
+(typeattributeset sec_not_can_setenforce_or_sec_unconfined_subject
+    (not (sec_can_setenforce sec_unconfined_subject)))
+(neverallow sec_not_can_setenforce_or_sec_unconfined_subject
     o.sec.fs.t (security (setenforce)))
 
-(typeattribute can_setsecparam)
-(typeattribute not_can_setsecparam_or_sec_unconfined_subject)
-(typeattributeset not_can_setsecparam_or_sec_unconfined_subject
-    (not (can_setsecparam sec_unconfined_subject)))
-(neverallow not_can_setsecparam_or_sec_unconfined_subject
+(typeattribute sec_can_setsecparam)
+(typeattribute sec_not_can_setsecparam_or_sec_unconfined_subject)
+(typeattributeset sec_not_can_setsecparam_or_sec_unconfined_subject
+    (not (sec_can_setsecparam sec_unconfined_subject)))
+(neverallow sec_not_can_setsecparam_or_sec_unconfined_subject
     o.sec.fs.t (security (setsecparam)))
 
 (allow sec_unconfined_subject o.sec.fs.t list_dir_perms)
 (allow sec_unconfined_subject o.sec.fs.t read_lnk_file_perms)
 
-(typeattribute all_bools_except_load_policy)
-(typeattributeset all_bools_except_load_policy
+(typeattribute sec_bools_except_load_policy)
+(typeattributeset sec_bools_except_load_policy
     (and (sec_bool_object) (not (o.sec.load_policy.t))))
 (allow sec_unconfined_subject sec_bool_object read_file_perms)
-(allow sec_unconfined_subject all_bools_except_load_policy
+(allow sec_unconfined_subject sec_bools_except_load_policy
     (file (append write)))
 (allow sec_unconfined_subject o.sec.fs.t
     all_security_perms_except_load_policy_and_setenforce)
@@ -83,7 +83,7 @@
 (macro sec_set_enforce_mode ((type ARG1))
     (call fs_search_sysfs (ARG1))
     (call rw_files_pattern (ARG1 o.fs.sec.t o.fs.sec.t))
-    (typeattributeset can_setenforce ARG1)
+    (typeattributeset sec_can_setenforce ARG1)
     (booleanif (sec_load_policy)
         (true
             (allow ARG1 o.sec.fs.t (security (setenforce))))))
@@ -91,14 +91,14 @@
 (macro sec_load_policy ((type ARG1))
     (call fs_search_sysfs (ARG1))
     (call rw_files_pattern (ARG1 o.sec.fs.t o.sec.fs.t))
-    (typeattributeset can_load_policy ARG1)
+    (typeattributeset sec_can_load_policy ARG1)
     (booleanif (sec_load_policy)
         (true
             (allow ARG1 o.sec.fs.t (security (load_policy))))))
 
 (macro sec_set_all_booleans ((type ARG1))
     (call fs_search_sysfs (ARG1))
-    (allow ARG1 all_bools_except_load_policy rw_file_perms)
+    (allow ARG1 sec_bools_except_load_policy rw_file_perms)
     (call read_files_pattern (ARG1 o.sec.fs.t o.sec.load_policy.t))
     (allow ARG1 o.sec.fs.t (security (setbool)))
     (booleanif (sec_load_policy)
@@ -110,7 +110,7 @@
     (call rw_files_pattern (ARG1 o.sec.fs.t o.sec.fs.t))
     (allow ARG1 o.sec.fs.t (security (setsecparam)))
     (auditallow ARG1 o.sec.fs.t (security (setsecparam)))
-    (typeattributeset can_setsecparam ARG1))
+    (typeattributeset sec_can_setsecparam ARG1))
 
 (macro sec_unconfined_subject ((type ARG1))
     (typeattributeset sec_unconfined_subject ARG1))

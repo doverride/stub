@@ -36,5 +36,8 @@
     (call object (ARG1))
     (typeattributeset file_object ARG1))
 
+(macro file_execmod_all_files ((type ARG1))
+    (allow ARG1 file_object (file (execmod))))
+
 (macro file_unconfined_subject ((type ARG1))
     (typeattributeset file_unconfined_subject ARG1))

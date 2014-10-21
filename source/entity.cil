@@ -17,8 +17,8 @@
     )
 )
 
-(typeattribute any)
-(typeattributeset any (all))
+(typeattribute entity)
+(typeattributeset entity (all))
 
 (macro entity_unconfined_subject ((type ARG1))
     (typeattributeset entity_unconfined_subject ARG1))

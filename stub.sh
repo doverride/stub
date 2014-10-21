@@ -12,6 +12,7 @@ test -d policy || mkdir policy
     source/base/stor.cil \
     source/base/sys.cil \
     source/base/term.cil \
+    source/base/unconfined.cil \
     source/config.cil \
     source/constraints.cil \
     source/entity.cil \

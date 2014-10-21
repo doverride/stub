@@ -1,7 +1,7 @@
 (boolean subject_mmap_low true)
 
-(typeattribute subject_entry_file_object)
 (typeattribute subject)
+(typeattribute subject_entry_file_object)
 (typeattribute subject_unconfined_subject)
 
 (typeattribute subject_can_change_object_identity)
@@ -31,25 +31,28 @@
 
 (call object_roletype (subject))
 
-(typeattribute not_subject_entry_file_object)
-(typeattributeset not_subject_entry_file_object (not (subject_entry_file_object)))
-(neverallow not_subject not_subject_entry_file_object (file (entrypoint)))
+(typeattribute subject_not_subject_entry_file_object)
+(typeattributeset subject_not_subject_entry_file_object (not
+    (subject_entry_file_object)))
+(neverallow subject_not_subject subject_not_subject_entry_file_object
+    (file (entrypoint)))
 
-(typeattribute not_subject)
-(typeattributeset not_subject (not subject))
-(neverallow subject not_subject (process (transition dyntransition)))
+(typeattribute subject_not_subject)
+(typeattributeset subject_not_subject (not subject))
+(neverallow subject subject_not_subject (process (transition
+    dyntransition)))
 
-(typeattribute can_set_current_context)
-(typeattribute not_can_set_current_context)
-(typeattributeset not_can_set_current_context
-    (and (subject) (not (can_set_current_context))))
-(neverallow not_can_set_current_context self (process (setcurrent)))
+(typeattribute subject_can_set_current_context)
+(typeattribute subject_not_can_set_current_context)
+(typeattributeset subject_not_can_set_current_context
+    (and (subject) (not (subject_can_set_current_context))))
+(neverallow subject_not_can_set_current_context self (process (setcurrent)))
 
-(typeattribute can_mmap_low)
-(typeattribute not_can_mmap_low)
-(typeattributeset not_can_mmap_low
-    (and (subject) (not (can_mmap_low))))
-(neverallow not_can_mmap_low self (memprotect (mmap_zero)))
+(typeattribute subject_can_mmap_low)
+(typeattribute subject_not_can_mmap_low)
+(typeattributeset subject_not_can_mmap_low
+    (and (subject) (not (subject_can_mmap_low))))
+(neverallow subject_not_can_mmap_low self (memprotect (mmap_zero)))
 
 (allow subject_unconfined_subject subject
     all_process_perms_except_transition_ptrace_setsched_dyntransition_setcurrent_execmem_execstack_and_execheap)
@@ -122,20 +125,23 @@
     (typeattributeset subject_user_target ARG1))
 
 (macro subject_dynamic_subject_type_transition_subject ((type ARG1))
-    (typeattributeset can_set_current_context ARG1))
+    (typeattributeset subject_can_set_current_context ARG1))
 
 (macro subject_entry_object ((type ARG1))
     (typeattributeset subject_entry_file_object ARG1))
 
 (macro subject_mmap_low ((type ARG1))
-    (typeattributeset can_mmap_low ARG1)
+    (typeattributeset subject_can_mmap_low ARG1)
     (booleanif subject_mmap_low
         (true
             (allow ARG1 self (memprotect (mmap_zero))))))
 
 (macro subject_mmap_low_uncond ((type ARG1))
     (allow ARG1 self (memprotect (mmap_zero)))
-    (typeattributeset can_mmap_low ARG1))
+    (typeattributeset subject_can_mmap_low ARG1))
+
+(macro subject_ptrace_all ((type ARG1))
+    (allow ARG1 subject (process (ptrace))))
 
 (macro subject_unconfined_subject ((type ARG1))
     (call subject_dynamic_subject_type_transition_subject (ARG1))

@@ -22,31 +22,9 @@
         (userlevel u systemlow)
         (userrange u (systemlow systemhigh))
 
-        ; temporary workaround (unconfined)
-        (allow t self all_capability_perms_except_sys_module_and_sys_nice)
-        (allow t self all_capability2_perms_except_mac_override_and_mac_admin)
-        (allow t self (process (transition dyntransition setcurrent)))
-        (allow t self all_fifo_file_perms_except_execmod)
-
-        (call entity_unconfined_subject (t))
-
-        (call object_unconfined_subject (t))
-        (call subject_unconfined_subject (t))
-
-        (call dev_unconfined_subject (t))
-        (call file_unconfined_subject (t))
-        (call fs_unconfined_subject (t))
-        (call net_unconfined_subject (t))
-        (call sec_unconfined_subject (t))
-
-        (call sys_unconfined_subject (t))
-
         ; temporary workaround (systemd-sysctl)
-        (call sys_rw_sysctl_security (t))
-        (call sys_rw_sysctl_usermodehelper (t))
-
-        (optional sys_optional_stor
-            (call stor_unconfined_subject (t)))
+        (call sys_rw_sysctl_security_files (t))
+        (call sys_rw_sysctl_usermodehelper_files (t))
 
         ; temporary workaround (fedora)
         (allow t self (system (halt reboot status start stop
@@ -54,6 +32,9 @@
         (allow t self (dbus (all)))
         (allow t self (passwd (all)))
         (allow t file_object (service (all)))
+
+        (optional sys_optional_unconfined
+            (call unconfined_subject (t)))
     )
 )
 
@@ -69,10 +50,10 @@
         (call sys_sysctl_object (t))
 )
 
-(block sysctl_security_or_usermodehelper
-    (blockabstract sysctl_security_or_usermodehelper)
+(block sys_sysctl_security_or_usermodehelper
+    (blockabstract sys_sysctl_security_or_usermodehelper)
         (blockinherit sysctl)
-        (typeattributeset sysctl_security_or_usermodehelper_object (t))
+        (typeattributeset sys_sysctl_security_or_usermodehelper (t))
 )
 
 (in o
@@ -195,7 +176,7 @@
             )
 
             (block security
-                (blockinherit sysctl_security_or_usermodehelper)
+                (blockinherit sys_sysctl_security_or_usermodehelper)
 
                 (context sys_sysctl_security (s.sys.u o.r t (systemlow systemlow)))
 
@@ -210,7 +191,7 @@
             )
 
             (block usermodehelper
-                (blockinherit sysctl_security_or_usermodehelper)
+                (blockinherit sys_sysctl_security_or_usermodehelper)
 
                 (context sys_sysctl_usermodehelper (s.sys.u o.r t (systemlow systemlow)))
 
@@ -253,33 +234,33 @@
     )
 )
 
-(typeattribute can_load_kernel_module)
-(typeattribute not_can_load_kernel_module)
-(typeattributeset not_can_load_kernel_module (not can_load_kernel_module))
-(neverallow not_can_load_kernel_module self (capability (sys_module)))
+(typeattribute sys_can_load_kernel_module)
+(typeattribute sys_not_can_load_kernel_module)
+(typeattributeset sys_not_can_load_kernel_module (not sys_can_load_kernel_module))
+(neverallow sys_not_can_load_kernel_module self (capability (sys_module)))
 
-(typeattribute can_read_kernel_message)
-(typeattribute not_can_read_kernel_message_or_sys_unconfined_subject)
-(typeattributeset not_can_read_kernel_message_or_sys_unconfined_subject
-    (not (can_read_kernel_message sys_unconfined_subject)))
-(neverallow not_can_read_kernel_message_or_sys_unconfined_subject
+(typeattribute sys_can_read_kernel_message)
+(typeattribute sys_not_can_read_kernel_message_or_sys_unconfined_subject)
+(typeattributeset sys_not_can_read_kernel_message_or_sys_unconfined_subject
+    (not (sys_can_read_kernel_message sys_unconfined_subject)))
+(neverallow sys_not_can_read_kernel_message_or_sys_unconfined_subject
     o.sys.proc.kmsg.t all_file_perms_except_getattr)
 
-(typeattribute can_dump_kernel)
-(typeattribute not_can_dump_kernel_or_sys_unconfined_subject)
-(typeattributeset not_can_dump_kernel_or_sys_unconfined_subject
-    (not (can_dump_kernel sys_unconfined_subject)))
-(neverallow not_can_dump_kernel_or_sys_unconfined_subject
+(typeattribute sys_can_dump_kernel)
+(typeattribute sys_not_can_dump_kernel_or_sys_unconfined_subject)
+(typeattributeset sys_not_can_dump_kernel_or_sys_unconfined_subject
+    (not (sys_can_dump_kernel sys_unconfined_subject)))
+(neverallow sys_not_can_dump_kernel_or_sys_unconfined_subject
     o.sys.proc.kcore.t all_file_perms_except_getattr)
 
-(typeattribute sysctl_security_or_usermodehelper_object)
-(typeattribute not_sysctl_security_or_usermodehelper_object)
-(typeattribute can_write_sysctl_security_and_usermodehelper_object)
-(typeattribute not_can_write_sysctl_security_and_usermodehelper_object)
-(typeattributeset not_can_write_sysctl_security_and_usermodehelper_object
-    (not (can_write_sysctl_security_and_usermodehelper_object)))
-(neverallow not_can_write_sysctl_security_and_usermodehelper_object
-    sysctl_security_or_usermodehelper_object (file (append write)))
+(typeattribute sys_sysctl_security_or_usermodehelper)
+(typeattribute sys_not_sysctl_security_or_usermodehelper)
+(typeattribute sys_can_write_sysctl_security_and_usermodehelper)
+(typeattribute sys_not_can_write_sysctl_security_and_usermodehelper)
+(typeattributeset sys_not_can_write_sysctl_security_and_usermodehelper
+    (not (sys_can_write_sysctl_security_and_usermodehelper)))
+(neverallow sys_not_can_write_sysctl_security_and_usermodehelper
+    sys_sysctl_security_or_usermodehelper (file (append write)))
 
 (allow sys_unconfined_subject s.sys.t (system
     (ipc_info syslog_read syslog_mod syslog_console module_request)))
@@ -288,11 +269,11 @@
 (allow sys_unconfined_subject sys_proc_object list_dir_perms)
 (allow sys_unconfined_subject sys_proc_object read_lnk_file_perms)
 
-(typeattributeset not_sysctl_security_or_usermodehelper_object
-    (and (sys_sysctl_object) (not (sysctl_security_or_usermodehelper_object))))
+(typeattributeset sys_not_sysctl_security_or_usermodehelper
+    (and (sys_sysctl_object) (not (sys_sysctl_security_or_usermodehelper))))
 (allow sys_unconfined_subject
-    not_sysctl_security_or_usermodehelper_object rw_file_perms)
-(allow sys_unconfined_subject sysctl_security_or_usermodehelper_object
+    sys_not_sysctl_security_or_usermodehelper rw_file_perms)
+(allow sys_unconfined_subject sys_sysctl_security_or_usermodehelper
     read_file_perms)
 (allow sys_unconfined_subject sys_sysctl_object list_dir_perms)
 (allow sys_unconfined_subject sys_sysctl_object read_lnk_file_perms)
@@ -301,8 +282,8 @@
 
 (booleanif (sys_load_kernel_module)
     (true
-        (allow can_load_kernel_module self (capability (sys_nice sys_module)))
-        (allow can_load_kernel_module s.sys.t (process (setsched)))))
+        (allow sys_can_load_kernel_module self (capability (sys_nice sys_module)))
+        (allow sys_can_load_kernel_module s.sys.t (process (setsched)))))
 
 (macro sys_proc_object ((type ARG1))
     (call object (ARG1))
@@ -316,10 +297,10 @@
     (call fs_search_proc (ARG1))
     (allow ARG1 self (capability (sys_rawio)))
     (allow ARG1 o.sys.proc.kcore.t read_file_perms)
-    (typeattributeset can_dump_kernel ARG1))
+    (typeattributeset sys_can_dump_kernel ARG1))
 
 (macro sys_load_kernel_module ((type ARG1))
-    (typeattributeset can_load_kernel_module ARG1))
+    (typeattributeset sys_can_load_kernel_module ARG1))
 
 (macro sys_mounton_sysctl_fs_dir ((type ARG1))
     (allow ARG1 o.sys.sysctl.fs.t (dir (mounton))))
@@ -327,23 +308,23 @@
 (macro sys_read_kernel_message ((type ARG1))
     (call fs_search_proc (ARG1))
     (allow ARG1 o.sys.proc.kmsg.t read_file_perms)
-    (typeattributeset can_read_kernel_message ARG1))
+    (typeattributeset sys_can_read_kernel_message ARG1))
 
-(macro sys_rw_sysctl_security ((type ARG1))
+(macro sys_rw_sysctl_security_files ((type ARG1))
     (call sys_search_sysctl (ARG1))
     (allow ARG1 o.sys.sysctl.fs.t search_dir_perms)
     (allow ARG1 o.sys.sysctl.kernel.t search_dir_perms)
     (allow ARG1 o.sys.sysctl.vm.t search_dir_perms)
     (allow ARG1 o.sys.sysctl.security.t rw_file_perms)
     (typeattributeset
-        can_write_sysctl_security_and_usermodehelper_object ARG1))
+        sys_can_write_sysctl_security_and_usermodehelper ARG1))
 
-(macro sys_rw_sysctl_usermodehelper ((type ARG1))
+(macro sys_rw_sysctl_usermodehelper_files ((type ARG1))
     (call sys_search_sysctl_kernel (ARG1))
     (call rw_files_pattern (ARG1 o.sys.sysctl.usermodehelper.t
         o.sys.sysctl.usermodehelper.t))
     (typeattributeset
-        can_write_sysctl_security_and_usermodehelper_object ARG1))
+        sys_can_write_sysctl_security_and_usermodehelper ARG1))
 
 (macro sys_search_sysctl ((type ARG1))
     (call fs_search_proc (ARG1))

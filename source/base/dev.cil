@@ -285,29 +285,29 @@
     )
 )
 
-(typeattribute can_read_memory)
-(typeattribute not_can_read_memory_or_dev_unconfined_subject)
-(typeattributeset not_can_read_memory_or_dev_unconfined_subject
-    (not (can_read_memory dev_unconfined_subject)))
-(neverallow not_can_read_memory_or_dev_unconfined_subject
+(typeattribute dev_can_read_memory)
+(typeattribute dev_not_can_read_memory_or_dev_unconfined_subject)
+(typeattributeset dev_not_can_read_memory_or_dev_unconfined_subject
+    (not (dev_can_read_memory dev_unconfined_subject)))
+(neverallow dev_not_can_read_memory_or_dev_unconfined_subject
     o.dev.memory.t (chr_file (read)))
 
-(typeattribute can_write_memory)
-(typeattribute not_can_write_memory_or_dev_unconfined_subject)
-(typeattributeset not_can_write_memory_or_dev_unconfined_subject
-    (not (can_write_memory dev_unconfined_subject)))
-(neverallow not_can_write_memory_or_dev_unconfined_subject
+(typeattribute dev_can_write_memory)
+(typeattribute dev_not_can_write_memory_or_dev_unconfined_subject)
+(typeattributeset dev_not_can_write_memory_or_dev_unconfined_subject
+    (not (dev_can_write_memory dev_unconfined_subject)))
+(neverallow dev_not_can_write_memory_or_dev_unconfined_subject
     o.dev.memory.t (chr_file (append write)))
 
 (call fs_associate_devtmpfs (dev_object))
 
 (allow dev_unconfined_subject self (capability (sys_rawio)))
 
-(typeattribute all_dev_objects_except_stor_objects)
-(typeattributeset all_dev_objects_except_stor_objects (and (dev_object)
+(typeattribute dev_objects_except_stor_objects)
+(typeattributeset dev_objects_except_stor_objects (and (dev_object)
     (not (dev_stor_object))))
 
-(allow dev_unconfined_subject all_dev_objects_except_stor_objects
+(allow dev_unconfined_subject dev_objects_except_stor_objects
     all_chr_file_perms_except_execmod)
 
 (macro dev_object ((type ARG1))
@@ -322,13 +322,13 @@
     (call fs_search_devtmpfs (ARG1))
     (allow ARG1 self (capability (sys_rawio)))
     (allow ARG1 o.dev.memory.t read_chr_file_perms)
-    (typeattributeset can_read_memory ARG1))
+    (typeattributeset dev_can_read_memory ARG1))
 
 (macro dev_write_memory ((type ARG1))
     (call fs_search_devtmpfs (ARG1))
     (allow ARG1 self (capability (sys_rawio)))
     (allow ARG1 o.dev.memory.t write_chr_file_perms)
-    (typeattributeset can_write_memory ARG1))
+    (typeattributeset dev_can_write_memory ARG1))
 
 (macro dev_unconfined_subject ((type ARG1))
     (typeattributeset dev_unconfined_subject ARG1))
